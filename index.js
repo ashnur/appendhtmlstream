@@ -1,12 +1,11 @@
 var fs = require('fs')
 var trumpet = require('trumpet')
-var through = require('through')
 var tr = trumpet()
 tr.pipe(process.stdout)
 var index = fs.readFileSync('./index.html')
-var fill = tr.select('body', function (elem) {
-  var s = through()
-  s.push(index)
-  s.pipe(elem.createStream()).pipe(s)
+tr.select('body', function (elem) {
+  var body = elem.createStream()
+  body.push(index)
+  body.pipe(body)
 })
 fs.createReadStream('./frame.html').pipe(tr)
